@@ -28,7 +28,7 @@ NicamTV.get_programs = function(date_from, date_to, nicam_rating, primary) {
     $('#listing').empty();
     for (idx in data.hits.hits) {
       var item = data.hits.hits[idx];
-      var item_time = item._source.date.split('T')[1].split(':').slice(0,2);
+      var item_time = item._source.published_start_time.split('T')[1].split(':').slice(0,2);
       var output = '<div class="listing">';
       output += '<h2>' + item._source.title + '(' + item_time.join(':') + '/' + item._source.channel + ')</h2>';
       output += '<p>' + item._source.description + '</p>';
