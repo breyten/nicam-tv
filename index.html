@@ -46,16 +46,33 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Je kan vandaag kijken naar</h1>
-            <p class="lead">
-              <div id="categories">
-              </div>
-              <div id="primary">
-              </div>
-              <div id="secondary">
-              </div>
-              <div id="listing">
-              </div>
-            </p>
+
+            <!-- Nav tabs -->
+<div>
+ <ul class="nav nav-tabs" role="tablist">
+   <li role="presentation" class="active"><a href="#tab-categories" aria-controls="tab-categories" role="tab" data-toggle="tab">Categorie</a></li>
+   <li role="presentation"><a href="#tab-primary" aria-controls="tab-primary" role="tab" data-toggle="tab">Type</a></li>
+   <li role="presentation"><a href="#tab-listing" aria-controls="tab-listing" role="tab" data-toggle="tab">Gids</a></li>
+ </ul>
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane active" id="tab-categories">
+    <div id="categories">
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="tab-primary">
+    <div id="primary">
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="tab-listing">
+    <div id="listing">
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+</div>
             <p class="lead">
               <a id="btn-submit" href="http://www.openspending.nl/" target="_blank" class="btn btn-lg btn-default">Learn more</a>
             </p>

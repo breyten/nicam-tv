@@ -156,8 +156,10 @@ body {
   }
 }
 
+#clearfix { clear: both; }
+
 #categories, #primary {
-float: left;
+/* float: left; */
 width: 800px;
 height: 600px;
 font-family: Arial;
