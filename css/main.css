@@ -112,6 +112,12 @@ body {
 }
 
 
+#categories, #primary {
+/* float: left; */
+width: 400px;
+height: 300px;
+}
+
 /*
  * Cover
  */
@@ -146,6 +152,11 @@ body {
   .cover-container {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
   }
+  #categories, #primary {
+  /* float: left; */
+  width: 600px;
+  height: 450px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -154,14 +165,16 @@ body {
   .cover-container {
     width: 700px;
   }
+  #categories, #primary {
+  /* float: left; */
+  width: 662px;
+  height: 496px;
+  }
 }
 
 #clearfix { clear: both; }
 
 #categories, #primary {
-/* float: left; */
-width: 800px;
-height: 600px;
 font-family: Arial;
 font-size: 11px;
 }
@@ -186,4 +199,8 @@ color: white;
 .major a, .minor a {
   color: white;
   text-decoration: underline;
+}
+
+a[role="tab"] {
+  color: white;
 }

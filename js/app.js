@@ -21,7 +21,7 @@ NicamTV.get_programs = function(date_from, date_to, nicam_rating, primary) {
         "gids_genres.primary": {"terms": [primary]}
       }
   }), function (data) {
-    $('#tab-listing').tab('show');
+    $('a[href="#tab-listing"]').click();
     NicamTV.data = data;
     console.log("Got data:");
     console.dir(data);
@@ -70,7 +70,7 @@ NicamTV.get_primaries = function(date_from, date_to, nicam_rating) {
       },
       itemMargin: 2
     });
-    $('#tab-primary').tab('show');
+    $('a[href="#tab-primary"]').click();
   });
 };
 
