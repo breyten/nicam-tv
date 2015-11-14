@@ -10,9 +10,10 @@ NicamTV.init = function() {
 
 NicamTV.get_programs = function(date_from, date_to, nicam_rating, primary) {
   $.post('http://backstage-api.npo.nl/v0/gids/search', JSON.stringify({
-      "query": "de||het||een",
       "facets": {},
       "size": 100,
+      "sort": "date",
+      "order": "asc",
       "key": "JaFXa3JfNvzaa6zGaHCcTJCud252RRGojBPrB2877Hw",
       "filters": {
         "date": {"from": date_from, "to": date_to},
@@ -23,6 +24,16 @@ NicamTV.get_programs = function(date_from, date_to, nicam_rating, primary) {
     NicamTV.data = data;
     console.log("Got data:");
     console.dir(data);
+    $('#listing').empty();
+    for (idx in data.hits.hits) {
+      var item = data.hits.hits[idx];
+      var item_time = item._source.date.split('T')[1].split(':').slice(0,2);
+      var output = '<div class="listing">';
+      output += '<h2>' + item._source.title + '(' + item_time.join(':') + '/' + item._source.channel + ')</h2>';
+      output += '</div>';
+      console.dir(item);
+      $('#listing').append($(output));
+    }
   });
 };
 
@@ -47,7 +58,7 @@ NicamTV.get_primaries = function(date_from, date_to, nicam_rating) {
       return {label: '<a href="#" class="primary" data-term=" + t.term + ">' + t.term + '</a>', value: t.count, data: t.term + ' data'}
     }), {
       nodeClass: function(node, box){
-        if(node.value <= 50){
+        if(node.value <= 10){
           return 'minor';
         }
         return 'major';
@@ -94,7 +105,7 @@ NicamTV.get_categories = function(date_from, date_to) {
       return {label: '<a href="#" class="nicam-rating" data-term=" + t.term + ">' + t.term + '</a>', value: t.count, data: t.term + ' data'}
     }), {
       nodeClass: function(node, box){
-        if(node.value <= 50){
+        if(node.value <= 15){
           return 'minor';
         }
         return 'major';
