@@ -1,7 +1,29 @@
 NicamTV = window.NicamTV || {};
+NicamTV.nicam_rating = undefined;
+NicamTV.primary = undefined;
 
 NicamTV.init = function() {
-  NicamTV.get_categories();
+  var d = new Date();
+  var date_only = d.toISOString().split('T')[0];
+  NicamTV.get_categories(date_only, date_only);
+};
+
+NicamTV.get_programs = function(date_from, date_to, nicam_rating, primary) {
+  $.post('http://backstage-api.npo.nl/v0/gids/search', JSON.stringify({
+      "query": "de||het||een",
+      "facets": {},
+      "size": 100,
+      "key": "JaFXa3JfNvzaa6zGaHCcTJCud252RRGojBPrB2877Hw",
+      "filters": {
+        "date": {"from": date_from, "to": date_to},
+        "gids_genres.nicam_warning_cs": {"terms": [nicam_rating]},
+        "gids_genres.primary": {"terms": [primary]}
+      }
+  }), function (data) {
+    NicamTV.data = data;
+    console.log("Got data:");
+    console.dir(data);
+  });
 };
 
 NicamTV.get_primaries = function(date_from, date_to, nicam_rating) {
@@ -13,7 +35,7 @@ NicamTV.get_primaries = function(date_from, date_to, nicam_rating) {
       "size": 0,
       "key": "JaFXa3JfNvzaa6zGaHCcTJCud252RRGojBPrB2877Hw",
       "filters": {
-        "date": {"from": "2015-11-14", "to": "2015-11-15"},
+        "date": {"from": date_from, "to": date_to},
         "gids_genres.nicam_warning_cs": {"terms": [nicam_rating]}
       }
   }), function (data) {
@@ -41,19 +63,28 @@ NicamTV.get_primaries = function(date_from, date_to, nicam_rating) {
 NicamTV.get_categories = function(date_from, date_to) {
   $(document).on('click', '.nicam-rating', function (e) {
     //alert('you clicked something!' + $(this).text());
-    NicamTV.get_primaries(date_from, date_to, $(this).text());
+    NicamTV.nicam_rating = $(this).text();
+    NicamTV.get_primaries(date_from, date_to, NicamTV.nicam_rating);
+    e.preventDefault();
+    return false;
+  });
+
+  $(document).on('click', '.primary', function (e) {
+    //alert('you clicked something!' + $(this).text());
+    NicamTV.primary = $(this).text();
+    NicamTV.get_programs(date_from, date_to, NicamTV.nicam_rating, NicamTV.primary);
     e.preventDefault();
     return false;
   });
 
   $.post('http://backstage-api.npo.nl/v0/gids/search', JSON.stringify({
-      "query": "de||het||een",
+      //"query": "de||het||een",
       "facets": {
         "gids_genres.nicam_warning_cs": {}
       },
       "size": 0,
       "key": "JaFXa3JfNvzaa6zGaHCcTJCud252RRGojBPrB2877Hw",
-      "filters": {"date": {"from": "2015-11-14", "to": "2015-11-15"}}
+      "filters": {"date": {"from": date_from, "to": date_to}}
   }), function (data) {
     NicamTV.data = data;
     console.log("Got data:");
@@ -73,10 +104,6 @@ NicamTV.get_categories = function(date_from, date_to) {
       },
       itemMargin: 2
       });
-    // for (idx in data.facets['gids_genres.nicam_warning_cs'].terms) {
-    //   var term = data.facets['gids_genres.nicam_warning_cs'].terms[idx];
-    //   $('#categories').append($('<li>' + term.term + '</li>'));
-    // }
   });
 };
 
